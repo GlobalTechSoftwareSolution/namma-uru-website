@@ -6,13 +6,13 @@ const HeroSection = () => {
     <section
       className="relative flex items-center justify-center text-center bg-cover bg-center"
       style={{
-        backgroundImage: "url('/images/hero.jpg')", // 🔁 Replace with your actual image path
+        backgroundImage: "url('/images/hero.png')", // 🔁 Replace with your actual image path
         height: "90vh", // ⬅️ You can change this to '100vh', '80vh', etc.
       }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      <div className="relative z-10 text-white px-4">
+      <div className="relative z-10 text-black px-4">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
           WELCOME TO NAMMA URU <br />
           NAMMA HEMME

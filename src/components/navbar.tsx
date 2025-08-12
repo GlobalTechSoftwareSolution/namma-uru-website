@@ -7,10 +7,10 @@ import Link from 'next/link';
 
 export default function Navbar() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Reserved for future use
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#F3E2D4] text-white">
       {/* 🔺 Row with 3 Swamiji Images */}
       <div className="flex justify-between items-center px-4 sm:px-6 py-2">
         {/* Left Image */}
@@ -20,7 +20,7 @@ export default function Navbar() {
             alt="Gavisiddeshwara Swamiji"
             width={80}
             height={80}
-            className="rounded-full object-cover w-16 h-16 sm:w-20 sm:h-20"
+            className="rounded-full object-cover object-[50%_30%] w-16 h-16 sm:w-20 sm:h-20"
           />
         </div>
 
@@ -31,21 +31,20 @@ export default function Navbar() {
             alt="Shivakumara Swamiji"
             width={90}
             height={90}
-            className="rounded-full object-cover w-20 h-20 sm:w-24 sm:h-24"
+            className="rounded-full object-cover object-[50%_30%] w-20 h-20 sm:w-24 sm:h-24"
           />
         </div>
 
         {/* Right Image */}
-      <div className="bg-white rounded-full p-1">
-  <Image
-    src="/logo/siddeswar-swamiji.png"
-    alt="Siddeshwar Swamiji"
-    width={80}
-    height={80}
-    className="rounded-full object-cover object-[top_100%] w-16 h-16 sm:w-20 sm:h-20"
-  />
-</div>
-
+        <div className="bg-white rounded-full p-1">
+          <Image
+            src="/logo/images (1).jpg"
+            alt="Siddeshwar Swamiji"
+            width={80}
+            height={80}
+            className="rounded-full object-cover object-[10%_50%] w-16 h-16 sm:w-20 sm:h-20"
+          />
+        </div>
       </div>
 
       {/* 🔻 Navbar Section */}
@@ -59,29 +58,57 @@ export default function Navbar() {
             height={48}
             className="h-15 sm:h-20 w-auto"
           />
-          <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white text-center sm:text-left">
+          <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-black text-center sm:text-left">
             Namma Uru Namma Hemme
           </span>
         </Link>
 
         {/* Nav links - Desktop */}
         <nav className="hidden md:flex space-x-4 sm:space-x-8 text-base sm:text-lg lg:text-xl">
-          <Link href="/" className="hover:text-gray-300">Home</Link>
-          <Link href="/about" className="hover:text-gray-300">About Us</Link>
-          <Link href="/services" className="hover:text-gray-300">Services</Link>
-          <Link href="/contact" className="hover:text-gray-300">Contact</Link>
+          {[
+            { name: "Home", href: "/" },
+            { name: "About Us", href: "/about" },
+            { name: "Services", href: "/services" },
+            { name: "Contact", href: "/contact" },
+            { name: "Success Stories", href: "/sucessstories" },
+          ].map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="relative text-black font-medium transition duration-300 ease-in-out
+                hover:text-blue-600
+                after:content-[''] after:absolute after:w-0 after:h-[2px] after:left-0 after:-bottom-1
+                after:bg-blue-600 after:transition-all after:duration-300
+                hover:after:w-full hover:scale-105"
+            >
+              {link.name}
+            </Link>
+          ))}
         </nav>
 
         {/* Social Icons */}
         <div className="flex space-x-4 sm:space-x-6 text-2xl sm:text-3xl">
-          <a href="https://www.instagram.com/namm.aurunammahemme00/" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="hover:text-pink-500 transition duration-300" />
+          <a
+            href="https://www.instagram.com/namm.aurunammahemme00/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram className="text-black hover:text-pink-500 transition duration-300" />
           </a>
-          <a href="https://wa.me/9844281875" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-            <FaWhatsapp className="hover:text-green-500 transition duration-300" />
+          <a
+            href="https://wa.me/9844281875"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+          >
+            <FaWhatsapp className="text-black hover:text-green-500 transition duration-300" />
           </a>
-          <a href="https://www.facebook.com/profile.php?id=61576464933842" target="_blank" rel="noopener noreferrer">
-            <FaFacebook className="hover:text-blue-500 transition duration-300" />
+          <a
+            href="https://www.facebook.com/profile.php?id=61576464933842"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook className="text-black hover:text-blue-500 transition duration-300" />
           </a>
         </div>
       </header>
@@ -98,47 +125,25 @@ export default function Navbar() {
 
       {/* 🔽 Mobile Menu Links */}
       {mobileServicesOpen && (
-        <div className="flex-col flex-wrap justify-center mt-2 mx-4 bg-white text-black shadow-lg rounded-md z-10 ">
-          <Link
-            href="/"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setMobileServicesOpen(false);
-            }}
-            className="block px-4 py-2 hover:bg-gray-400 transition"
-          >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setMobileServicesOpen(false);
-            }}
-            className="block px-4 py-2 hover:bg-gray-400 transition"
-          >
-            About
-          </Link>
-          <Link
-            href="/contact"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setMobileServicesOpen(false);
-            }}
-            className="block px-4 py-2 hover:bg-gray-400 transition"
-          >
-            Contact
-          </Link>
-          <Link
-            href="/services"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setMobileServicesOpen(false);
-            }}
-            className="block px-4 py-2 hover:bg-gray-400 transition"
-          >
-            Services
-          </Link>
+        <div className="flex-col flex-wrap justify-center mt-2 mx-4 bg-white text-black shadow-lg rounded-md z-10">
+          {[
+            { name: "Home", href: "/" },
+            { name: "About", href: "/about" },
+            { name: "Contact", href: "/contact" },
+            { name: "Services", href: "/services" },
+          ].map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setMobileServicesOpen(false);
+              }}
+              className="block px-4 py-2 hover:bg-gray-400 transition"
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
       )}
     </div>

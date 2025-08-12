@@ -1,8 +1,10 @@
 import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white py-10 px-6 md:px-20">
+    <footer className="bg-[#E7D3D3] text-black py-10 px-6 md:px-20">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center md:text-left">
         
         {/* Left: Logo & Info */}
@@ -13,7 +15,7 @@ export default function Footer() {
             className="w-32 mx-auto md:mx-0 mb-4"
           />
           <h2 className="text-xl font-bold mb-2">Namma Uru Namma Hemme</h2>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-black">
             A Helping Hands Foundation, Bangalore. Dedicated to serving our community with love, care, and dignity.
           </p>
         </div>
@@ -68,6 +70,21 @@ export default function Footer() {
       <div className="mt-10 text-center text-xs text-gray-500 border-t border-gray-700 pt-4">
         &copy; {new Date().getFullYear()} Namma Uru Namma Hemme. All rights reserved.
       </div>
+
+        {/* WhatsApp Floating Button */}
+      <Link
+        href="https://wa.me/9844281875"
+        className="fixed bottom-7 right-3 rounded-full shadow-lg z-50 mr-5"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Image
+          src="/logo/whatsapp.png"
+          alt="WhatsApp"
+          width={48}
+          height={48}
+        />
+      </Link>
     </footer>
   );
 }
