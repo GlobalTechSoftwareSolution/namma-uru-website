@@ -130,7 +130,8 @@ export default function Navbar() {
             { name: "Home", href: "/" },
             { name: "About", href: "/about" },
             { name: "Contact", href: "/contact" },
-            { name: "Services", href: "/services" },
+            { name: "Services", href: "/services" }, 
+            { name: "Success Stories", href: "/sucessstories" },
           ].map((link) => (
             <Link
               key={link.name}
