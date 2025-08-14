@@ -12,7 +12,7 @@ export default function Footer() {
           <img 
             src="/logo/namma.png" 
             alt="Namma Uru Namma Hemme Logo"
-            className="w-32 mx-auto md:mx-0 mb-4"
+            className="w-32 mx-auto md:mx-0 mb-4 rounded-full"
           />
           <h2 className="text-xl font-bold mb-2">Namma Uru Namma Hemme</h2>
           <p className="text-sm text-black">

@@ -56,7 +56,7 @@ export default function Navbar() {
             alt="Logo"
             width={48}
             height={48}
-            className="h-15 sm:h-20 w-auto"
+            className="h-15 sm:h-20 w-auto rounded-full"
           />
           <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-black text-center sm:text-left">
             Namma Uru Namma Hemme
