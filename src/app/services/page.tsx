@@ -21,7 +21,7 @@ export default function AboutServices() {
     alt="Hero Background"
     fill
     priority
-    className="object-cover object-[50%_30%]" // centers horizontally, shifts image down
+    className="object-cover object-[50%_10%]" // centers horizontally, shifts image down
   />
   
   {/* Dark Overlay */}

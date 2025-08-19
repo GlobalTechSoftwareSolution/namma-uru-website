@@ -70,21 +70,6 @@ export default function Footer() {
       <div className="mt-10 text-center text-xs text-gray-500 border-t border-gray-700 pt-4">
         &copy; {new Date().getFullYear()} Namma Uru Namma Hemme. All rights reserved.
       </div>
-
-        {/* WhatsApp Floating Button */}
-      <Link
-        href="https://wa.me/9844281875"
-        className="fixed bottom-7 right-3 rounded-full shadow-lg z-50 mr-5"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src="/logo/whatsapp.png"
-          alt="WhatsApp"
-          width={48}
-          height={48}
-        />
-      </Link>
     </footer>
   );
 }

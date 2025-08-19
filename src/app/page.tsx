@@ -5,6 +5,7 @@ import SuccessStories from './sucessstories/page';
 import Home from '@/app/home/page';
 import WhatWeDoSection from './WhatWeDoSection/page';
 import WhyChooseUs from './WhyChooseUs/page';
+import Button from '@/app/button/page';
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <WhatWeDoSection />
       <SuccessStories />
       <Joinus />
+      <Button />
       <Footer />
     </div>
   );

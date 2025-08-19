@@ -1,244 +1,160 @@
-'use client';
-
-import React, { useState, useRef, FormEvent } from 'react';
-import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
+"use client"
+import { useState, useRef, FormEvent, useEffect } from "react"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    services: '',
-    message: ''
-  });
+    name: "",
+    phone: "",
+    email: "",
+    message: ""
+  })
 
-  const [popup, setPopup] = useState<{ show: boolean; message: string; type: 'success' | 'error' }>({
+  const [popup, setPopup] = useState<{ show: boolean; message: string; type: "success" | "error" }>({
     show: false,
-    message: '',
-    type: 'success'
-  });
+    message: "",
+    type: "success"
+  })
 
-  const form = useRef<HTMLFormElement>(null);
+  const form = useRef<HTMLFormElement>(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
 
-  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // ✅ WhatsApp Redirect
+  const sendToWhatsApp = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-    if (!form.current) return;
+    const { name, phone, email, message } = formData
+    const yourNumber = "919844281875"
 
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
-        form.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
-      )
-      .then(
-        () => {
-          setPopup({ show: true, message: 'Message sent successfully!', type: 'success' });
-          setFormData({ name: '', phone: '', email: '', services: '', message: '' });
-        },
-        (error) => {
-          console.error('FAILED...', error.text);
-          setPopup({ show: true, message: 'Failed to send message. Please try again.', type: 'error' });
-        },
-      );
-  };
+    const text = `Hello, I want to get in touch.%0A
+Name: ${name}%0A
+Phone: ${phone}%0A
+Email: ${email}%0A
+Message: ${message}`
+
+    const url = `https://wa.me/${yourNumber}?text=${text}`
+
+    window.open(url, "_blank")
+
+    setPopup({
+      show: true,
+      message: "✅ Opening WhatsApp...",
+      type: "success"
+    })
+
+    setFormData({ name: "", phone: "", email: "", message: "" })
+  }
+
+  useEffect(() => {
+    if (popup.show) {
+      const timer = setTimeout(() => {
+        setPopup(prev => ({ ...prev, show: false }))
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [popup.show])
 
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen flex flex-col bg-[#ebedee]">
-        {/* Main Content */}
-        <main className="flex-grow">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid md:grid-cols-2 gap-12">
-              {/* Contact Information */}
-              <div>
-                <motion.h1 
-                  className="text-3xl font-bold text-gray-800 mb-6"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  Contact Us
-                </motion.h1>
-                
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <h2 className="text-xl font-semibold text-gray-700 mb-4">Need Any Help?</h2>
-                  <p className="text-gray-600 mb-8">
-                    Call us or message and we'll respond as soon as possible
-                  </p>
+    <Navbar />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
 
-                  {/* Phone */}
-                  <div className="space-y-6">
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-800">Phone</h3>
-                        <a href="tel:+919844281875" className="text-blue-600 hover:text-blue-800">
-                          +91 9844281875
-                        </a>
-                      </div>
-                    </div>
+      {/* Contact Form */}
+      <div className="bg-white/95 backdrop-blur-lg p-10 rounded-2xl shadow-2xl relative w-full max-w-2xl border border-yellow-400 hover:shadow-yellow-500/50 transition duration-500">
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 rounded-b-2xl"></div>
 
-                    {/* Email */}
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-800">Email</h3>
-                        <a href="mailto:careersupport@nammurunammahemme.com" className="text-blue-600 hover:text-blue-800">
-                          careersupport@nammurunammahemme.com
-                        </a>
-                      </div>
-                    </div>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6 text-center">
+          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            Get in Touch with Namma Uru Namma Hemme
+          </span>
+        </h2>
 
-                    {/* Address */}
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-800">Address</h3>
-                        <p className="text-gray-600">
-                          No 10c, Gaduniya Complex Ramaiah Layout, Vidyaranyapura, Bangalore - 560097
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
+        <form ref={form} onSubmit={sendToWhatsApp} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Name */}
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg text-base placeholder:text-gray-400 focus:ring-2 focus:ring-yellow-500 outline-none col-span-2 md:col-span-1"
+          />
 
-              {/* Contact Form */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-white p-8 rounded-xl shadow-md"
-              >
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Send us a message</h2>
-                <p className="text-gray-600 mb-8">
-                  Fill out the form below and we'll respond as soon as possible
-                </p>
+          {/* Phone */}
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone *"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg text-base placeholder:text-gray-400 focus:ring-2 focus:ring-yellow-500 outline-none col-span-2 md:col-span-1"
+          />
 
-                <form ref={form} onSubmit={sendEmail} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Enter Your Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                      Enter Mobile Number *
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    />
-                  </div>
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg text-base placeholder:text-gray-400 focus:ring-2 focus:ring-yellow-500 outline-none col-span-2"
+          />
 
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Enter Your Email Id *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    />
-                  </div>
+          {/* Message */}
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
+            rows={4}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg text-base placeholder:text-gray-400 focus:ring-2 focus:ring-yellow-500 outline-none col-span-2"
+          ></textarea>
 
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Your Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    ></textarea>
-                  </div>
-
-                  <motion.button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors duration-300"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Send Message
-                  </motion.button>
-                </form>
-              </motion.div>
-            </div>
-          </div>
-        </main>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="col-span-2 flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 via-green-600 to-green-700 text-white font-semibold py-3 rounded-lg shadow-md hover:scale-105 transition duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="text-white"
+            >
+              <path d="M20.52 3.48A11.87 11.87 0 0 0 12 .1C5.52.1.1 5.52.1 12c0 2.11.55 4.18 1.61 6.01L0 24l6.2-1.62A11.9 11.9 0 0 0 12 23.9c6.48 0 11.9-5.42 11.9-11.9 0-3.18-1.24-6.18-3.48-8.52zm-8.52 18.4c-2.06 0-4.08-.55-5.86-1.59l-.42-.25-3.69.96.99-3.59-.27-.43a9.86 9.86 0 0 1-1.52-5.32c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.15 1.03 7.03 2.91 1.88 1.88 2.91 4.38 2.91 7.03 0 5.46-4.44 9.9-9.9 9.9zm5.43-7.39c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.23-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.91 1.23 3.11c.15.2 2.13 3.26 5.16 4.57.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.15-.27-.23-.58-.38z" />
+            </svg>
+            SUBMIT
+          </button>
+        </form>
       </div>
 
-      {/* Popup Modal */}
+      {/* Popup */}
       {popup.show && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className={`bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center ${popup.type === 'success' ? 'border-green-500' : 'border-red-500'} border-t-4`}>
-            <p className={`text-lg font-semibold ${popup.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
-              {popup.message}
-            </p>
-            <button
-              onClick={() => setPopup({ ...popup, show: false })}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Close
-            </button>
-          </div>
+        <div
+          className={`fixed bottom-6 right-6 px-6 py-3 rounded-lg shadow-xl text-white font-medium animate-bounce transition-opacity duration-500 ${
+            popup.type === "success"
+              ? "bg-gradient-to-r from-green-400 to-green-600"
+              : "bg-gradient-to-r from-red-400 to-red-600"
+          }`}
+        >
+          {popup.message}
         </div>
       )}
-
-      <Footer />
+    </div>
+    <Footer />
     </>
-  );
+  )
 }
